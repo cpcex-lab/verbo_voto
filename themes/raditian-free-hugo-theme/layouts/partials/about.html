@@ -1,0 +1,61 @@
+{{ if .Site.Data.homepage.about.enable }}
+<section id="biografia" class="section section--border-bottom">
+  <div class="container">
+    <h2 class=" rad-animation-group rad-fade-down">
+        <h2>{{ .Site.Data.homepage.about.title }}</h2>
+        <p class="lead">
+          {{ .Site.Data.homepage.about.content | safeHTML }}
+        </p>
+      </div>
+    </div>
+  </div>
+{{ end }}
+{{ if .Site.Data.homepage.about.enable }}
+  <div class="container">
+    <div class="ow row--padded rad-animation-group rad-fade-down">
+      <div class="about__profile-picture col-12 col-md-6">
+        <img
+          class="lozad img-responsive image-left-overflow"
+          src="data:image/gif;base64,R0lGODlhBwACAIAAAP///wAAACH5BAEAAAEALAAAAAAHAAIAAAIDjI9YADs="
+          data-src="{{ .Site.Data.homepage.about2.image.x | absURL }}"
+          data-srcset="{{ .Site.Data.homepage.about2.image.x | absURL }} 1x, {{ .Site.Data.homepage.about.image._2x | absURL }} 2x"
+          alt="Profile Picture"
+        />
+      </div>
+      <div class="col-12 col-md-6 my-auto my-auto">
+        <p class="lead">
+          {{ .Site.Data.homepage.about2.content | safeHTML }}
+        </p>
+      </div>
+    </div>
+  </div>
+{{ end }}
+{{ if .Site.Data.homepage.about.enable }}
+  <div class="container">
+    <h2 class=" rad-animation-group rad-fade-down">
+      <p class="lead">
+        {{ .Site.Data.homepage.about3.content | safeHTML }}
+      </p>
+    </div>
+{{ end }}
+{{ if .Site.Data.homepage.about.enable }}
+  <div class="container">
+    <div class="ow row--padded rad-animation-group rad-fade-down">
+      <div class="about__profile-picture col-12 col-md-6">
+        <img
+          class="lozad img-responsive image-left-overflow img-clip-left-backward"
+          src="data:image/gif;base64,R0lGODlhBwACAIAAAP///wAAACH5BAEAAAEALAAAAAAHAAIAAAIDjI9YADs="
+          data-src="{{ .Site.Data.homepage.about4.image.x | absURL }}"
+          data-srcset="{{ .Site.Data.homepage.about4.image.x | absURL }} 1x, {{ .Site.Data.homepage.about.image._2x | absURL }} 2x"
+          alt="Profile Picture"
+        />
+      </div>
+      <div class="col-12 col-md-6 my-auto my-auto">
+        <p class="lead">
+          {{ .Site.Data.homepage.about4.content | safeHTML }}
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+{{ end }}
