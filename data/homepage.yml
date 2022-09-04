@@ -67,7 +67,7 @@ about:
 
   image:
     x: "img/who-am-i/sobre-pic.png"
-    _2x: "img/who-am-i/user-picture.png"
+    _2x: "img/who-am-i/sobre-pic.png"
 
 # education
 #education:
