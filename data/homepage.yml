@@ -1,0 +1,205 @@
+# homepage
+homepage:
+  head:
+    title: "Verbo ao Voto"
+# showcase
+showcase:
+  enable: true
+  title: "Olá, este é o Verbo ao Voto!"
+  subtitle: ""
+  description: "No dia 2 de outubro de 2022 temos eleições presidenciais. Até lá, os principais candidatos disputam voto a voto com propostas, promessas, debates, postagens em redes sociais e ataques a seus concorrentes em campanha diária. Para retratar a corrida pelo Planalto,  o Laboratório de Ciência Política Computacional e Experimental (@cpcex_lab) lança seu monitor da campanha eleitoral, o Verbo ao Voto. O objetivo do projeto é subsidiar jornalistas, marqueteiros, assessores, os próprios candidatos e a sociedade brasileira com informações sumárias e atualizadas sobre a disputa eleitoral."
+  image:
+    alt: "Verbo ao Voto"
+    x: "img/showcase/verbo_ao_voto_03.gif"
+    _2x: "img/showcase/verbo_ao_voto_03.gif"
+  imageMobile:
+    alt: "Verbo ao Voto"
+    x: "img/showcase/verbo_ao_voto_03.gif"
+    _2x: "img/showcase/verbo_ao_voto_03.gif"
+
+  button:
+    icon: "icon-arrow-right"
+    btnText: "Acesse a Plataforma"
+    URL: ""
+
+  socialLinks:
+#    - icon: "linkedin"
+#      URL: "https://www.linkedin.com/company/radity/"
+#
+#    - icon: "github"
+#      URL: "https://github.com/radity"
+#
+#    - icon: "twitter"
+#      URL: "https://twitter.com/radity"
+#
+#    - icon: "dribbble"
+#      URL: "https://dribbble.com/radity"
+#
+#    - icon: "behance"
+#      URL: "https://www.behance.net/radity-digital"
+#
+#    - icon: "youtube"
+#      URL: "https://www.youtube.com/channel/UCojEc6SPO-W1_CoeHhK9-Zw"
+#
+    - icon: "instagram"
+      URL: "https://www.instagram.com/verbo_voto/"
+#
+#    - icon: "facebook"
+#      URL: "https://www.facebook.com/raditycom/"
+#
+#    - icon: "codepen"
+#      URL: "#"
+#
+#    - icon: "yelp"
+#      URL: "https://www.yelp.com/"
+
+# about
+about:
+  enable: true
+  title: "Sobre"
+  content: 'O Verbo ao Voto é produto do <a href= https://cpcex-lab.rbind.io>Laboratório de Ciência Política Computacional e Experimental (@cpcex_lab)</a> , do Departamento de <a href= https://www.ufpe.br/dcp >Ciência Política da Universidade Federal de Pernambuco (DCP-UFPE)</a>. Ele foi desenvolvido por Mônica Rocabado, mestranda em Administração Pública e Governo pela FGV EAESP, Antônio Pires, doutorando do Programa de Pós-graduação em Ciência Política da UFPE, sob coordenação do Prof. Dr. Davi Moreira. A plataforma permite comparar a campanha dos principais candidatos à Presidência da República com o uso de dados do Banco de Discursos publicados pela plataforma Escriba da Agência Aos Fatos através do projeto Discursos Presidenciais e a coleta de dados em plataformas como o Twitter.
+
+
+<p class="lead"> Com o uso de aprendizagem computacional, estatísticas descritivas e inferenciais, o projeto apresenta informações sumárias e temporais sobre a corrida presidencial. Na versão lançada, mais de XXX horas? XXXde XXXX falas foram analisadas e a expectativa é de atualização constante dos dados e das informações até o final do pleito presidencial. Você vai conhecer quais assuntos foram priorizados pelos candidatos, as menções a adversários, os ataques realizados, a polarização da campanha e as principais estatísticas de toda a corrida eleitoral. A ferramenta tem como objetivo subsidiar a cobertura jornalística, marqueteiros, assessores, equipes de campanha, os próprios candidatos e a sociedade brasileira com informações sumárias e atualizadas sobre a disputa.
+ </p>
+
+<p class="lead">Em breve teremos mais atualizações!</p>'
+
+  image:
+    x: "img/who-am-i/sobre-pic.png"
+    _2x: "img/who-am-i/user-picture.png"
+
+# education
+#education:
+#  enable: true
+#  title: "Education"
+#  items:
+#    - university: "University of Waterloo"
+#      year: "2012-2017"
+#      degree: "Bachelor of Applied Science (BASc), Electrical Engineering"
+
+#    - university: "Sir John A Macdonald CI"
+#      year: "2009-2012"
+#      degree: "High School Diploma, Sciences, Math, Computer & Business Studies"
+
+# experience
+#experience:
+#  enable: true
+#  title: "Experience"
+#  description: "Over 15+ years of experience working with companies from all over the world. I design & develop digital products to help businesses and improve people's lives."
+#  button:
+#    icon: "icon-linkedin-fill"
+#    btnText: "Linkedin"
+#    URL: "https://www.linkedin.com/company/radity/"
+#  button2:
+#    icon: "icon-profile-fill"
+#    btnText: "Download My Resume"
+#    URL: "#"
+
+#  items:
+#    - title: "Sr. Front-End Developer"
+#      company: "Radity"
+#      duration: "Feb 2011 - Sep 2019"
+#
+#    - title: "Sr. Front-End Developer"
+#      company: "Textic"
+#      duration: "Apr 2010 - Jan 2011"
+
+#    - title: "Jr. Front-End Developer"
+#      company: "Cyberse"
+#      duration: "Jun 2009 - Mar 2010"
+
+# Client & Work
+client_and_work:
+  title: "Quem somos"
+  enable: true
+
+
+  works:
+    - title: "Mônica Rocabado"
+      description: "Pesquisadora no CeDHE - FGV, mestranda em Administracao Pública e Governo pela FGV EAESP, bacharel em Administração Pública pela FGV e cientista de dados em formação.
+
+Sou apaixonada em compreender, descobrir e sintetizar informações complexas em conteúdo visual e agradável ao leitor, para isso utilizando principalmente a linguagem R. Já trabalhei no governo em um laboratório de inovação, em consultoria política e agora integro um núcleo de pesquisa voltado a empresas e direitos humanos. Também realizei trabalho voluntário no Youth Voices Brasil, iniciativa apoiada pelo Banco Mundial, no time de pesquisa."
+      button:
+        icon: "icon-arrow-right"
+        btnText: "Conheça um pouco mais sobre mim!"
+        URL: "https://cpcex-lab.rbind.io/author/monica-rocabado/"
+      image:
+        x: "img/works/monica2.jpg"
+        _2x: "img/works/monica2.jpg"
+      is_even: true
+
+    - title: "Antônio Pires"
+      description: "Bacharel em Direito, Mestre e Doutorando em Ciência Política pela Universidade Federal de Pernambuco (UFPE). Sou membro do Laboratório de Ciência Política Computacional e Experimental (@cpcex_lab) e do Núcleo de Estudos de Política Comparada e Relações Internacionais (@nepiufpe). Meus interesses de pesquisa são Análise Automatizada de Texto e o Conselho de Segurança das Nações Unidas."
+      button:
+        icon: "icon-arrow-right"
+        btnText: "Conheça um pouco mais sobre mim!"
+        URL: "https://cpcex-lab.rbind.io/author/antonio-pires/"
+      image:
+        x: "img/works/antonio.jpg"
+        _2x: "img/works/antonio.jpg"
+      is_even: true
+    - title: "Davi Moreira"
+
+      description: "Professor de Ciência Política do Departamento de Ciência Política da Universidade Federal de Pernambuco. Em 2017 fui premiado pelo Prêmio CAPES de Tese em Ciência Política e Relações Internacionais. Meu trabalho acadêmico aborda Metodologia Política, Ciência de Dados, Texto como Dado, Inteligência Artificial e Política Comparada."
+      button:
+        icon: "icon-arrow-right"
+        btnText: "Conheça um pouco mais sobre mim!"
+        URL: "https://cpcex-lab.rbind.io/author/davi-moreira/"
+      image:
+        x: "img/works/davi.jpg"
+        _2x: "img/works/davi.jpg"
+      is_even: true
+
+
+
+# testimonial
+testimonial:
+  enable: true
+  title: "Colaboração"
+
+
+# contact
+contact:
+  enable: true
+  title: "Contato"
+  form:
+    method: "POST"
+    action: "#"
+    full_name: "Nome"
+    email: "E-mail"
+    message: "Escreva sua mensagem aqui"
+  email:
+    title: "Email"
+    email: '<a href="mailto:cpcex.lab@ufpe.br">cpcex.lab@ufpe.br</a>'
+  button:
+    icon: "icon-mail-fill"
+    btnText: "Enviar mensagem"
+
+# newsletter
+newsletter:
+  enable: true
+  title: "Apoio Institucional"
+  clients:
+      - logo:
+          x: "img/clients/labcpcex.png"
+          _2x: "img/clients/labcpcex.png"
+        alt: "labcpcex"
+
+      - logo:
+          x: "img/clients/dcp.png"
+          _2x: "img/clients/dcp.png"
+        alt: "UFPE"
+
+      - logo:
+          x: "img/clients/ufpe.png"
+          _2x: "img/clients/ufpe.png"
+        alt: "UFPE"
+
+# newsletter
+#newsletter:
+#  enable: true
+#  title: "Newsletter subscription"
+#  success_message: "Successfully subscribed"
+#  error_message: "Error while subscribing."
+#  note: "We'll never share your email with anyone else."
