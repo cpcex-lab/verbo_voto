@@ -1,5 +1,5 @@
 #googleAnalytics = "G-XXXXXXXXXX"
-baseURL = "https://verbovoto.github.io/"
+baseURL = ""
 languageCode = "pt-br"
 theme = "raditian-free-hugo-theme"
 
