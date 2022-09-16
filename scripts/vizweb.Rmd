@@ -1,0 +1,72 @@
+---
+title: "teste em html"
+output: html_document
+date: "2022-09-02"
+---
+
+## texto texto texto
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+
+```{r setup, include=FALSE,warning=FALSE, message=FALSE}
+test <- read.csv("linha_arena.csv")
+```
+
+<style>
+  .crosstalk-input-checkbox, .irs-grid-text{
+    color: blue;
+    font-family: calibri;
+  }
+.irs-bar {
+  background-color:red; 
+}
+</style>
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+library(crosstalk)
+library(ggplot2)
+library(plotly)
+
+test <- test %>% 
+  mutate(
+    datee = as.Date(date)
+  ) %>% 
+  filter(frequência > 0)
+
+
+shared_test <- SharedData$new(test)
+
+#edicao crosstalk
+bscols(widths = c(3, NA),
+       list(
+         filter_select("authors", "Autores", shared_test, ~authors),
+         filter_select("source", "Fonte", shared_test, ~source)
+       ),
+       #edicao ggplot
+       plotly::ggplotly(shared_test %>% 
+                          ggplot(aes(x = datee,y=frequência,
+                                     color = Citado,
+                                     size=frequência,
+                                     alpha =frequência,
+                                     group=paste({authors},"<br>",{source})
+                          )
+                          ) + 
+                          geom_point() +
+                          theme_minimal(base_family = "Calibri", base_size = 14) +
+                          labs(color = "Quem foi citado", size= "", alpha= "", y = "Frequência")+
+                          theme(panel.grid.major.y = element_blank(),
+                                panel.grid.minor.y = element_blank(),
+                                plot.subtitle = element_text(face = "italic", size = 13))+
+                          scale_x_date(date_breaks = "1 month", date_labels = "%B"),
+                          tooltip = c("x", "group", "color", "y")
+       ) %>% 
+         #plotly
+         layout(xaxis = list(rangeslider = list(type = "date"))) %>%
+         config(displaylogo = FALSE) %>%
+         config(modeBarButtonsToRemove = c('lasso2d', 'select2d', 'zoom2d'))
+       
+)
+
+
+```

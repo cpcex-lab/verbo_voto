@@ -1,0 +1,308 @@
+---
+title: "Untitled"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE, eval=FALSE}
+library(flexdashboard)
+##### Importar dados e carregar pacotes #####
+library(tidyverse)
+library(tidytext)
+library(purrr)
+library(jsonlite)
+library(networkD3)
+library(lubridate)
+library(quanteda)
+library(quanteda.textstats)
+library(quanteda.textplots)
+library(stm)
+library(dplyr)
+
+# Observação: É possível colocar qualquer número no 'for', pois o máximo que vai acontecer é a conexão não ser estabelecida
+
+disc_pres <- tibble()
+
+for(i in 1:19){
+  output <- fromJSON(paste("https://escriba.aosfatos.org/banco-de-discursos/api/?format=json&page=", i, sep = ""))
+  output <- output[["results"]] %>% 
+    unnest(transcription)
+  disc_pres <- rbind(disc_pres, output)
+}
+
+##### Processar Dados #####
+
+# Como os autores estão em formato de lista, é preciso usar unnest e depois reuni-los em um só label
+
+disc_pres <- disc_pres %>%
+  unnest(authors) %>% 
+  group_by(date, source, url, start, end, text) %>%
+  summarise(authors = paste(authors, collapse = ", ")) %>%
+  ungroup()
+
+# Por enquanto, remover o Debate devido à baixa estruturação
+# Criar nomes para os documentos e uma versão reduzida do nome dos autores
+
+disc_pres <- disc_pres %>% 
+  filter(source != "Debate") %>% 
+  group_by(authors) %>% 
+  mutate(docname = row_number(),
+         authors_min = case_when(authors == "Ciro Gomes (PDT)" ~ "ciro",
+                                 authors == "Jair Bolsonaro (PL)" ~ "bolsonaro",
+                                 authors == "Luiz Inácio Lula da Silva (PT)" ~ "lula",
+                                 authors == "Simone Tebet (MDB)" ~ "simone",
+                                 authors == "Vera Lúcia (PSTU)" ~ "vera",
+                                 TRUE ~ authors),
+         docname = paste(authors_min, docname, sep = "")) %>% 
+  ungroup()
+
+
+```
+
+```{r, include=FALSE}
+library(tidyverse)
+library(tidytext)
+library(purrr)
+library(jsonlite)
+library(networkD3)
+library(lubridate)
+library(quanteda)
+library(quanteda.textstats)
+library(quanteda.textplots)
+library(stm)
+library(dplyr)
+
+disc_pres <- readRDS("disc_pres.rds")
+
+disc_pres <- disc_pres %>%
+  unnest(authors) %>% 
+  group_by(date, source, url, start, end, text) %>%
+  summarise(authors = paste(authors, collapse = ", ")) %>%
+  ungroup()
+
+disc_pres <- disc_pres %>% 
+  filter(source != "Debate") %>% 
+  group_by(authors) %>% 
+  mutate(docname = row_number(),
+         authors_min = case_when(authors == "Ciro Gomes (PDT)" ~ "ciro",
+                                 authors == "Jair Bolsonaro (PL)" ~ "bolsonaro",
+                                 authors == "Luiz Inácio Lula da Silva (PT)" ~ "lula",
+                                 authors == "Simone Tebet (MDB)" ~ "simone",
+                                 authors == "Vera Lúcia (PSTU)" ~ "vera",
+                                 TRUE ~ authors),
+         docname = paste(authors_min, docname, sep = "")) %>% 
+  ungroup()
+
+#Análise de texto (corpus, tokens e dfm)
+
+corpus_pres = corpus(disc_pres, 
+                     docid_field = 'docname', 
+                     text_field = 'text')
+
+# Remover ao máximo palavras que causam ruído
+
+toks_pres <- corpus_pres %>% 
+  tokens(remove_punct = TRUE, 
+         remove_numbers = TRUE, 
+         remove_symbol = TRUE,
+         remove_url = TRUE) %>% 
+  tokens_tolower() %>% 
+  tokens_remove(pattern = c(stopwords("pt"), "senhor*")) %>%  
+  #tokens_wordstem() %>% 
+  tokens_select(min_nchar = 4)
+
+dfmat_pres <- toks_pres %>% 
+  dfm()
+
+pres_tidy <- disc_pres %>%
+  unnest_tokens(word, text) %>%
+  count(authors_min, word, sort = TRUE)
+
+total_words <- pres_tidy %>% 
+  group_by(authors_min) %>% 
+  summarize(total = sum(n))
+
+pres_tidy <- left_join(pres_tidy, total_words)
+
+pres_tidy <- pres_tidy %>%
+  bind_tf_idf(word, authors_min, n)
+  
+pres_tidy_lula <- pres_tidy %>%  filter(authors_min == "lula") %>% 
+  select(word, tf_idf)
+
+pres_tidy_bolso <- pres_tidy %>%  filter(authors_min == "bolsonaro") %>% 
+  select(word, tf_idf)
+
+pres_tidy_ciro <- pres_tidy %>%  filter(authors_min == "ciro") %>% 
+  select(word, tf_idf)
+
+pres_tidy_simone <- pres_tidy %>%  filter(authors_min == "simone") %>% 
+  select(word, tf_idf)
+
+```
+
+Page 1
+=====================================  
+
+Row
+-------------------------------------
+### Ciro
+
+```{r}
+wordcloud2::wordcloud2(pres_tidy_ciro)
+```
+
+
+### Lula
+
+```{r}
+wordcloud2::wordcloud2(pres_tidy_lula)
+```
+
+Row
+-------------------------------------
+### Bolsonaro
+
+```{r}
+wordcloud2::wordcloud2(pres_tidy_bolso)
+```
+
+
+### Simone
+
+```{r}
+wordcloud2::wordcloud2(pres_tidy_simone)
+```
+
+
+Page 2
+===================================== 
+```{r, echo=FALSE}
+library(quanteda.textstats)
+toks_pres_att <- corpus_pres %>% 
+  tokens() %>% 
+  tokens_tolower() %>% 
+  tokens_keep(pattern = c('lula', 'ciro', 'bolsonaro', 'simone'))
+
+topwords <- toks_pres_att %>% 
+  dfm() %>% 
+  textstat_frequency(groups = authors_min) %>% 
+  tibble() 
+
+disc_pres_count <- disc_pres %>%
+  group_by(authors_min, url) %>% 
+  summarise(disc_dur = max(end) / 60) %>% 
+  unique() %>% 
+  mutate(n_disc = n()) %>% 
+  ungroup() %>% 
+  group_by(authors_min, n_disc) %>% 
+  summarise(disc_dur = sum(disc_dur))
+
+topwords <- topwords %>% 
+  select(group, feature, frequency) %>% 
+  left_join(disc_pres_count, by = c('group' = 'authors_min')) %>% 
+  mutate(freq_dur = frequency / disc_dur) %>% 
+  rename(source = group,
+         target = feature,
+         value = freq_dur)
+
+library(networkD3)
+
+topwords$target <- paste(topwords$target, "_citado", sep = "") 
+
+nodes <- data.frame(name=c(as.character(topwords$source), 
+                           as.character(topwords$target)) %>%
+                      unique())
+
+topwords$IDsource <- match(topwords$source, nodes$name)-1 
+topwords$IDtarget <- match(topwords$target, nodes$name)-1
+
+sankeyNetwork(Links = topwords, Nodes = nodes,
+              Source = "IDsource", Target = "IDtarget",
+              Value = "value", NodeID = "name", 
+              sinksRight=FALSE,
+              fontFamily = "calibri",
+              fontSize = 14)
+```
+
+
+
+Page 3
+=====================================  
+
+```{r, echo=FALSE}
+library(tidyverse)
+library(tidytext)
+library(purrr)
+library(jsonlite)
+library(networkD3)
+library(lubridate)
+library(quanteda)
+library(quanteda.textstats)
+library(quanteda.textplots)
+library(stm)
+library(dplyr)
+
+test <- disc_pres %>% group_by(date, source, authors, url) %>%
+  summarize(text = stringr::str_interp(text))
+
+test <- test %>% 
+  filter(authors != "Vera Lúcia (PSTU)") %>% 
+  mutate(text = str_to_lower(text),
+         Bolsonaro = str_count(text, "bolsonaro"),
+         Lula = str_count(text, "lula"),
+         Ciro = str_count(text, "ciro"),
+         Simone = str_count(text, "simone|tebet"),
+  ) %>% 
+  pivot_longer(cols = Bolsonaro:Simone, names_to = "Citado", values_to = "frequência") %>% 
+  select(-text)
+
+test <- test %>% 
+  mutate(
+    datee = as.Date(date)
+  ) %>% 
+  filter(frequência > 0)
+
+
+#VISUALIZAZAO -----------------------------------------------------------
+
+library(crosstalk)
+library(ggplot2)
+library(plotly)
+
+shared_test <- SharedData$new(test)
+
+#edicao crosstalk
+bscols(widths = c(3, NA),
+       list(
+         filter_select("authors", "Autores", shared_test, ~authors),
+         filter_select("source", "Fonte", shared_test, ~source)
+       ),
+       #edicao ggplot
+       plotly::ggplotly(shared_test %>% 
+                          ggplot(aes(x = datee,y=frequência,
+                                     color = Citado,
+                                     size=frequência,
+                                     alpha =frequência,
+                                     group=paste({authors},"<br>",{source})
+                          )
+                          ) + 
+                          geom_point() +
+                          theme_minimal(base_family = "Calibri", base_size = 14) +
+                          labs(color = "Quem foi citado", size= "", alpha= "", y = "Frequência")+
+                          theme(panel.grid.major.y = element_blank(),
+                                panel.grid.minor.y = element_blank(),
+                                plot.subtitle = element_text(face = "italic", size = 13))+
+                          scale_x_date(date_breaks = "1 month", date_labels = "%B"),
+                        tooltip = c("x", "group", "color", "y")
+       ) %>% 
+         #plotly
+         layout(xaxis = list(rangeslider = list(type = "date"))) %>%
+         config(displaylogo = FALSE) %>%
+         config(modeBarButtonsToRemove = c('lasso2d', 'select2d', 'zoom2d'))
+       
+)
+```
+
